@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -38,6 +39,8 @@ model Consultation {
   confiance    Float?
   statut       String   @default("en_attente")
   notes        String?
+
+  // Relations (Corrigées pour éviter les erreurs de ligne)
   patient      Patient  @relation(fields: [patientId], references: [id])
   patientId    Int
   user         User     @relation(fields: [userId], references: [id])

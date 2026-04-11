@@ -9,11 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
-<<<<<<< Updated upstream
-=======
     "@prisma/client": "^7.7.0",
     "dotenv": "^17.4.1",
->>>>>>> Stashed changes
+
+    "@prisma/client": "^6.19.3",
+ main
     "next": "16.2.3",
     "react": "19.2.4",
     "react-dom": "19.2.4"
@@ -25,6 +25,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
+    "prisma": "^6.19.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
