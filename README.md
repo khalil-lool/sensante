@@ -39,3 +39,44 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 # sensante
 :SénSanté --- Assistant de santé communautaire avec IA
 >>>>>>> e209c021f96caba5a4222500f147ad32a92c24b8
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=crea>
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+=======
+# sensante
+:SénSanté --- Assistant de santé communautaire avec IA
+>>>>>>> e209c021f96caba5a4222500f147ad32a92c24b8
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=crea>
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+=======
+# sensante
+:SénSanté --- Assistant de santé communautaire avec IA
+>>>>>>> e209c021f96caba5a4222500f147ad32a92c24b8
+ # SénSanté
+ 
+ Assistant de santé communautaire avec IA. 
+ 
+ ## Stack technique 
+ - Next.js 14 (App Router) 
+ - Tailwind CSS 
+ - Prisma + PostgreSQL 
+ - Groq API (Llama 3) 
+ - NextAuth.js 
+ - Docker Compose 
+ 
+ ## Installation 
+ ```bash 
+ npm install  
+ cp .env.example .env # puis remplir les valeurs  
+ npx prisma db push 
+ npm run dev
+ ``` 
+  
+ ## Équipe  
