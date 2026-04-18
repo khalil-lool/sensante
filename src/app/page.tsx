@@ -1,12 +1,15 @@
-import Header from "@/components/Header";
 import PatientCard from "@/components/PatientCard";
+<<<<<<< HEAD
 import ConsultationCard from "@/components/ConsultationCard";
 import AlerteIA from "@/components/AlerteIA";
 import StatCard from "@/components/StatCard";
+=======
+>>>>>>> 38b754d04a96259f458436bec8fb00a0c5765724
 import LoginButton from "@/components/LoginButton";
 
 export default function Home() {
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-gray-50">
       <Header />
       <main className="p-8">
@@ -72,3 +75,19 @@ export default function Home() {
     </div>
   );
 }
+=======
+    <main className="min-h-screen bg-gray-50 p-8">
+      <h1 className="text-3xl font-bold text-teal-700 mb-6">
+        SénSanté
+      </h1>
+      <p className="text-gray-600 mb-8">
+        Assistant de santé communautaire avec IA
+      </p>
+      <h2 className="text-xl font-semibold text-gray-700 mb-4">
+        Patients
+      </h2>
+      <PatientCard />
+    </main>
+  );
+}
+>>>>>>> 38b754d04a96259f458436bec8fb00a0c5765724
