@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 
+// Déclaration de la police (obligatoire pour utiliser 'inter')
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,14 +20,22 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={inter.className}>
+        {/* Structure calquée sur le schéma du prof */}
         <div className="flex flex-col min-h-screen">
+          
+          {/* 1. Header en haut (toute la largeur) */}
           <Header />
+
           <div className="flex flex-1">
+            {/* 2. Sidebar à gauche */}
             <Sidebar />
+
+            {/* 3. Contenu à droite */}
             <main className="flex-1 bg-gray-50 p-8">
               {children}
             </main>
           </div>
+
         </div>
       </body>
     </html>

@@ -3,33 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Structure de données (Représentation statique - Tableau d'objets)
+// ✅ Structure de données correcte (Tableau d'objets)
 const liens = [
-  { 
-    nom: "Accueil", 
-    href: "/", 
-    icone: "H" 
-  },
-  { 
-    nom: "Patients", 
-    href: "/patients", 
-    icone: "P" 
-  },
-  { 
-    nom: "Consultations", 
-    href: "/consultations", 
-    icone: "C" 
-  },
-  { 
-    nom: "Dashboard", 
-    href: "/dashboard", 
-    icone: "D" 
-  },
-  { 
-    nom: "Profil", 
-    href: "/profil", 
-    icone: "U" 
-  },
+  { nom: "Accueil", href: "/", icone: "H" },
+  { nom: "Patients", href: "/patients", icone: "P" },
+  { nom: "Consultations", href: "/consultations", icone: "C" },
+  { nom: "Dashboard", href: "/dashboard", icone: "D" },
+  { nom: "Profil", href: "/profil", icone: "U" },
 ];
 
 export default function Sidebar() {
