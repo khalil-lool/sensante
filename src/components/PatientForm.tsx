@@ -7,7 +7,8 @@ export default function PatientForm({ onSuccess }: { onSuccess: () => void }) {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const data = {
       nom: formData.get("nom"),
       prenom: formData.get("prenom"),
@@ -23,7 +24,7 @@ export default function PatientForm({ onSuccess }: { onSuccess: () => void }) {
       body: JSON.stringify(data),
     });
     if (res.ok) {
-      e.currentTarget.reset();
+      form.reset();
       onSuccess();
     }
     setLoading(false);
