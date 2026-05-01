@@ -1,11 +1,10 @@
-
 interface PatientCardProps {
 nom: string;
-region: string;
-age: number;
+fonction: string;
+groupe: number;
 }
 export default function PatientCard({
-nom, region , age
+nom, fonction , groupe
 }: PatientCardProps) {
 return (
 <div className="bg-white rounded -lg shadow -md p-6
@@ -14,11 +13,16 @@ border -l-4 border -teal -500">
 {nom}
 </h3>
 <p className="text-gray -600 mt-1">
-Région : {region}
+fonction : {fonction}
 </p>
 <p className="text-gray -500 text-sm mt-1">
-{age} ans
+{groupe} 
 </p>
 </div>
 );
 }
+
+
+
+
+
