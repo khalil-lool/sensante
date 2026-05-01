@@ -1,0 +1,1 @@
+// Intégration Groq API — sera implémenté au Lab IA (v0.5)
