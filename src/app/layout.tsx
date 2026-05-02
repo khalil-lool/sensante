@@ -1,42 +1,40 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import SessionWrapper from "@/components/SessionWrapper";
 import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
 
-// Déclaration de la police (obligatoire pour utiliser 'inter')
-const inter = Inter({ subsets: ["latin"] });
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "SénSanté",
-  description: "Assistant de santé communautaire avec IA",
+  description: "Application de santé communautaire",
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="fr">
-      <body className={inter.className}>
-        {/* Structure calquée sur le schéma du prof */}
-        <div className="flex flex-col min-h-screen">
-          
-          {/* 1. Header en haut (toute la largeur) */}
-          <Header />
-
-          <div className="flex flex-1">
-            {/* 2. Sidebar à gauche */}
-            <Sidebar />
-
-            {/* 3. Contenu à droite */}
+      <body className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+        <SessionWrapper>
+          <div className="flex flex-col min-h-screen">
+            <Header />
             <main className="flex-1 bg-gray-50 p-8">
               {children}
             </main>
           </div>
-
-        </div>
+        </SessionWrapper>
       </body>
     </html>
   );
