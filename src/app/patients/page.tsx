@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import PatientCard from "@/components/PatientCard";
 import PatientForm from "@/components/PatientForm";
@@ -20,11 +19,10 @@ export default function PatientsPage() {
   const [loading, setLoading] = useState(true);
 
   async function chargerPatients() {
-    const res = await fetch("/api/patients");
-    const data = await res.json();
-    setPatients(data);
-    setLoading(false);
-  }
+  const res = await fetch("/api/patients");
+  const data = await res.json();
+  setPatients(Array.isArray(data) ? data : data.patients ?? []);
+}
 
   useEffect(() => {
     chargerPatients();
@@ -42,10 +40,8 @@ export default function PatientsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">
-        Patients
-      </h1>
+    <div>
+      <h1 className="text-2xl font-bold text-gray-800 mb-6">Patients</h1>
       <PatientForm onSuccess={chargerPatients} />
       <h2 className="text-xl font-semibold text-gray-700 mt-8 mb-4">
         Liste des patients ({patients.length})

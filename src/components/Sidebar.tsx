@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+// ✅ Structure de données correcte (Tableau d'objets)
 const liens = [
-  { nom: "Accueil",       href: "/",             icone: "H" },
-  { nom: "Patients",      href: "/patients",      icone: "P" },
+  { nom: "Accueil", href: "/", icone: "H" },
+  { nom: "Patients", href: "/patients", icone: "P" },
   { nom: "Consultations", href: "/consultations", icone: "C" },
-  { nom: "Dashboard",     href: "/dashboard",     icone: "D" },
-  { nom: "Profil",        href: "/profil",        icone: "U" },
+  { nom: "Dashboard", href: "/dashboard", icone: "D" },
+  { nom: "Profil", href: "/profil", icone: "U" },
 ];
 
 export default function Sidebar() {
@@ -24,9 +25,7 @@ export default function Sidebar() {
               key={lien.href}
               href={lien.href}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition
-                ${actif
-                  ? "bg-teal-600 font-bold"
-                  : "hover:bg-teal-700"}`}
+              ${actif ? "bg-teal-600 font-bold" : "hover:bg-teal-700"}`}
             >
               <span className="w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center text-sm">
                 {lien.icone}
