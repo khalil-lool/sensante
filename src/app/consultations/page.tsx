@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import ConsultationForm from "@/components/ConsultationForm";
+import DiagnosticIA from "@/components/DiagnosticIA";
 
 interface Consultation {
   id: number;
@@ -38,13 +39,10 @@ export default function ConsultationsPage() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Consultations</h1>
-
       <ConsultationForm onSuccess={charger} />
-
       <h2 className="text-xl font-semibold text-gray-700 mt-8 mb-4">
         Historique ({consultations.length})
       </h2>
-
       {loading ? (
         <p className="text-gray-500">Chargement...</p>
       ) : consultations.length === 0 ? (
@@ -53,7 +51,6 @@ export default function ConsultationsPage() {
         <div className="space-y-4">
           {consultations.map((c) => (
             <div key={c.id} className="bg-white rounded-lg shadow-md p-6 border-l-4 border-orange-400">
-              
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="font-bold text-gray-800">
@@ -85,20 +82,13 @@ export default function ConsultationsPage() {
                 <p className="text-sm text-gray-600 mt-3 italic">{c.notes}</p>
               )}
 
-              {c.diagnosticIa ? (
-                <div className="mt-3 p-3 bg-red-50 rounded-lg">
-                  <p className="text-sm font-bold text-red-700">
-                    Diagnostic IA : {c.diagnosticIa}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    Confiance : {c.confiance}%
-                  </p>
-                </div>
-              ) : (
-                <p className="text-xs text-gray-400 mt-3 italic">
-                  Diagnostic IA en attente
-                </p>
-              )}
+              {/* ✅ ICI — Le composant DiagnosticIA remplace l'ancien bloc */}
+              <DiagnosticIA
+                consultationId={c.id}
+                diagnosticExistant={c.diagnosticIa}
+                confianceExistante={c.confiance}
+                onDiagnostic={charger}
+              />
 
             </div>
           ))}

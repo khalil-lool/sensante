@@ -1,14 +1,14 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-// GET /api/patients
 export async function GET() {
   try {
     const patients = await prisma.patient.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: { id: "desc" }, // ← createdAt n'existe pas dans votre schéma
     });
     return NextResponse.json(patients);
   } catch (error) {
+    console.error("ERREUR GET /api/patients :", error);
     return NextResponse.json(
       { error: "Erreur lors de la récupération" },
       { status: 500 }
@@ -16,7 +16,6 @@ export async function GET() {
   }
 }
 
-// POST /api/patients
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -33,6 +32,7 @@ export async function POST(request: Request) {
     });
     return NextResponse.json(patient, { status: 201 });
   } catch (error) {
+    console.error("ERREUR POST /api/patients :", error);
     return NextResponse.json(
       { error: "Erreur lors de la création" },
       { status: 500 }

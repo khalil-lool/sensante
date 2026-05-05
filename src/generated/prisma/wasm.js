@@ -103,21 +103,28 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PatientScalarFieldEnum = {
+  id: 'id',
+  nom: 'nom',
+  prenom: 'prenom',
+  dateNaissance: 'dateNaissance',
+  sexe: 'sexe',
+  telephone: 'telephone',
+  adresse: 'adresse',
+  region: 'region',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ConsultationScalarFieldEnum = {
   id: 'id',
   date: 'date',
   symptomes: 'symptomes',
   notes: 'notes',
   statut: 'statut',
+  diagnosticIa: 'diagnosticIa',
+  confiance: 'confiance',
   patientId: 'patientId',
   userId: 'userId'
-};
-
-exports.Prisma.PatientScalarFieldEnum = {
-  id: 'id',
-  nom: 'nom',
-  prenom: 'prenom',
-  region: 'region'
 };
 
 exports.Prisma.SortOrder = {
@@ -134,15 +141,15 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
-};
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
 };
 exports.Role = exports.$Enums.Role = {
   AGENT: 'AGENT',
@@ -152,8 +159,8 @@ exports.Role = exports.$Enums.Role = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Consultation: 'Consultation',
-  Patient: 'Patient'
+  Patient: 'Patient',
+  Consultation: 'Consultation'
 };
 /**
  * Create the Client
@@ -194,6 +201,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -202,13 +210,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  // Ajoute cette ligne ci-dessous :\n  url      = env(\"DATABASE_URL\")\n}\n\nenum Role {\n  AGENT\n  MEDECIN\n  ADMIN\n}\n\nmodel User {\n  id            Int            @id @default(autoincrement())\n  nom           String\n  prenom        String\n  email         String         @unique\n  password      String\n  role          Role           @default(AGENT)\n  createdAt     DateTime       @default(now())\n  // N'oublie pas d'ajouter la relation avec Consultation ici \n  // si tu passes au Lab v0.4\n  consultations Consultation[]\n}\n\n// Ajoute le modèle Consultation pour ton Lab actuel (v0.4)\nmodel Consultation {\n  id        Int      @id @default(autoincrement())\n  date      DateTime @default(now())\n  symptomes Json // Stockage en JSON comme demandé\n  notes     String?\n  statut    String   @default(\"en_attente\")\n\n  patientId Int\n  patient   Patient @relation(fields: [patientId], references: [id])\n\n  userId Int\n  user   User @relation(fields: [userId], references: [id])\n}\n\n// N'oublie pas le modèle Patient si ce n'est pas déjà fait\nmodel Patient {\n  id            Int            @id @default(autoincrement())\n  nom           String\n  prenom        String\n  region        String\n  consultations Consultation[]\n}\n",
-  "inlineSchemaHash": "9441e731a1f3a2b8b16ea20a4930a69d7319fe04964233488e610713ea857001",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum Role {\n  AGENT\n  MEDECIN\n  ADMIN\n}\n\nmodel User {\n  id            Int            @id @default(autoincrement())\n  nom           String\n  prenom        String\n  email         String         @unique\n  password      String\n  role          Role           @default(AGENT)\n  createdAt     DateTime       @default(now())\n  consultations Consultation[]\n}\n\nmodel Patient {\n  id            Int            @id @default(autoincrement())\n  nom           String\n  prenom        String\n  dateNaissance DateTime\n  sexe          String\n  telephone     String?\n  adresse       String?\n  region        String\n  createdAt     DateTime       @default(now())\n  consultations Consultation[]\n}\n\nmodel Consultation {\n  id           Int      @id @default(autoincrement())\n  date         DateTime @default(now())\n  symptomes    Json\n  notes        String?\n  statut       String   @default(\"en_attente\")\n  diagnosticIa String?\n  confiance    Float?\n  patientId    Int\n  patient      Patient  @relation(fields: [patientId], references: [id])\n  userId       Int?\n  user         User?    @relation(fields: [userId], references: [id])\n}\n",
+  "inlineSchemaHash": "88897d11c3b7f82d2984bd9517c8c507224a1a9b03d456119732d1babfe9f0aa",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nom\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"prenom\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"consultations\",\"kind\":\"object\",\"type\":\"Consultation\",\"relationName\":\"ConsultationToUser\"}],\"dbName\":null},\"Consultation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"symptomes\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"statut\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"patientId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"patient\",\"kind\":\"object\",\"type\":\"Patient\",\"relationName\":\"ConsultationToPatient\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ConsultationToUser\"}],\"dbName\":null},\"Patient\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nom\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"prenom\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"region\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"consultations\",\"kind\":\"object\",\"type\":\"Consultation\",\"relationName\":\"ConsultationToPatient\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nom\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"prenom\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"consultations\",\"kind\":\"object\",\"type\":\"Consultation\",\"relationName\":\"ConsultationToUser\"}],\"dbName\":null},\"Patient\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nom\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"prenom\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dateNaissance\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"sexe\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"telephone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"adresse\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"region\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"consultations\",\"kind\":\"object\",\"type\":\"Consultation\",\"relationName\":\"ConsultationToPatient\"}],\"dbName\":null},\"Consultation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"symptomes\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"statut\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"diagnosticIa\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"confiance\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"patientId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"patient\",\"kind\":\"object\",\"type\":\"Patient\",\"relationName\":\"ConsultationToPatient\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ConsultationToUser\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

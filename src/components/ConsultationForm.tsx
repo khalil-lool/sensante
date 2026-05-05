@@ -9,10 +9,8 @@ interface Patient {
 }
 
 const SYMPTOMES_DISPONIBLES = [
-  "Fièvre", "Toux", "Maux de tête",
-  "Fatigue", "Diarrhée", "Vomissements",
-  "Douleur abdominale", "Éruption cutanée",
-  "Frissons", "Douleur thoracique",
+  "Fièvre", "Toux", "Maux de tête", "Fatigue", "Diarrhée", "Vomissements",
+  "Douleur abdominale", "Éruption cutanée", "Frissons", "Douleur thoracique",
   "Essoufflement", "Vertiges",
 ];
 
@@ -24,7 +22,7 @@ export default function ConsultationForm({ onSuccess }: { onSuccess: () => void 
   useEffect(() => {
     fetch("/api/patients")
       .then((res) => res.json())
-      .then((data) => setPatients(Array.isArray(data) ? data : [])) // ← fix principal
+      .then((data) => setPatients(Array.isArray(data) ? data : []))
       .catch(() => setPatients([]));
   }, []);
 
@@ -40,23 +38,34 @@ export default function ConsultationForm({ onSuccess }: { onSuccess: () => void 
       alert("Cochez au moins un symptôme.");
       return;
     }
+    
     setLoading(true);
-    const formData = new FormData(e.currentTarget);
-    const res = await fetch("/api/consultations", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" }, // ← espace supprimé
-      body: JSON.stringify({
-        patientId: Number(formData.get("patientId")),
-        symptomes,
-        notes: formData.get("notes"),
-      }),
-    });
-    if (res.ok) {
-      setSymptomes([]);
-      e.currentTarget.reset();
-      onSuccess();
+    const form = e.currentTarget; // On stocke la référence du formulaire
+    const formData = new FormData(form);
+
+    try {
+      const res = await fetch("/api/consultations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }, // ✅ CORRIGÉ : Pas d'espace
+        body: JSON.stringify({
+          patientId: Number(formData.get("patientId")),
+          symptomes: symptomes,
+          notes: formData.get("notes"),
+        }),
+      });
+
+      if (res.ok) {
+        setSymptomes([]);
+        form.reset(); // ✅ Utilisation de la référence stable
+        onSuccess();
+      } else {
+        alert("Erreur lors de l'enregistrement.");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
@@ -86,9 +95,7 @@ export default function ConsultationForm({ onSuccess }: { onSuccess: () => void 
             <label
               key={s}
               className={`flex items-center gap-2 p-2 rounded-lg border cursor-pointer transition ${
-                symptomes.includes(s)
-                  ? "bg-orange-50 border-orange-400"
-                  : "hover:bg-gray-50"
+                symptomes.includes(s) ? "bg-orange-50 border-orange-400" : "hover:bg-gray-50"
               }`}
             >
               <input
@@ -105,21 +112,14 @@ export default function ConsultationForm({ onSuccess }: { onSuccess: () => void 
 
       {/* Section 3 : Notes */}
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
-          Notes (optionnel)
-        </label>
-        <textarea
-          name="notes"
-          rows={3}
-          placeholder="Observations cliniques..."
-          className="w-full p-3 border rounded-lg"
-        />
+        <label className="block text-sm font-semibold text-gray-700 mb-2">Notes (optionnel)</label>
+        <textarea name="notes" rows={3} placeholder="Observations cliniques..." className="w-full p-3 border rounded-lg" />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition disabled:opacity-50"
+        className="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition disabled:opacity-50 w-full"
       >
         {loading ? "Enregistrement..." : "Enregistrer la consultation"}
       </button>
