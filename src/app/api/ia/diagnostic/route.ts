@@ -8,7 +8,7 @@ const session =
 await getServerSession ( authOptions );
 if (! session ) {
 return NextResponse .json(
-{ error: "Non autoris é" },
+{ error: "Non autorisé" },
 { status: 401 }
 );
 }
