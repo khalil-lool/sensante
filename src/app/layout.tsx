@@ -26,24 +26,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
-    <html lang="fr">
+    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
         <SessionWrapper>
           <div className="flex flex-col min-h-screen">
             <Header />
-            {/* --- MODIFICATION ICI : On ajoute un div flex pour la Sidebar --- */}
             <div className="flex flex-1">
-              <Sidebar /> 
+              <Sidebar />
               <main className="flex-1 bg-gray-50 p-8">
                 {children}
               </main>
             </div>
-            {/* ------------------------------------------------------------ */}
           </div>
         </SessionWrapper>
       </body>
