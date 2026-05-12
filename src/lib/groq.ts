@@ -1,18 +1,21 @@
 import Groq from "groq-sdk";
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+let groq: Groq | null = null;
+
+function getGroq(): Groq {
+  if (!groq) {
+    groq = new Groq({ apiKey: process.env.GROQ_API_KEY || "" });
+  }
+  return groq;
+}
 
 const SYSTEM_PROMPT = `Tu es un assistant médical pour le Sénégal. Tu analyses les symptômes signalés par un agent de santé communautaire et tu proposes un pré-diagnostic.
-
 Règles :
 - Tu donnes un niveau de confiance entre 0 et 100.
 - Tu classes l'urgence : "faible", "moyen", "urgent".
 - Tu recommandes TOUJOURS de consulter un professionnel de santé.
 - Tu tiens compte du contexte sénégalais (paludisme, dengue, etc.).
 - Tu NE poses PAS de diagnostic définitif.
-
 Réponds UNIQUEMENT en JSON valide :
 {
   "diagnostic": "description du pré-diagnostic",
@@ -44,7 +47,7 @@ Symptômes : ${symptomes.join(", ")}
 ${notes ? `Notes : ${notes}` : ""}
 Propose un pré-diagnostic.`;
 
-  const completion = await groq.chat.completions.create({
+  const completion = await getGroq().chat.completions.create({
     messages: [
       { role: "system", content: SYSTEM_PROMPT },
       { role: "user", content: userMessage },
@@ -55,7 +58,6 @@ Propose un pré-diagnostic.`;
   });
 
   const response = completion.choices[0]?.message?.content || "{}";
-
   try {
     return JSON.parse(response);
   } catch {
